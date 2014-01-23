@@ -23,8 +23,8 @@ methods
 ```c
 char** smartstr_split(char *str, char *search, int *length);
 ``` 
-split the smart string with string search
-you can get the count of result and the result point to char *  
+split the `str` with `search`
+you can get the count of result `length` and the result point to char *  
 ```c
 char *smartstr_replace(char *str, char *search, char *replace, int *matched);
 ```
