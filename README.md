@@ -14,7 +14,9 @@ macros
 =======
 ```SMARTSTR_SET(str, src)```init your str with src 
 
-```SMARTSTR_APPEND(str, src)```append your str with src 
+```SMARTSTR_APPEND(str, src)```append your str with src  
+
+```SMARTSTR_CLEAR(str)```set your str to empty 
 
 ```SMARTSTR_FREE(str)```free your smart str 
 
