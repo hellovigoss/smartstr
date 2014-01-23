@@ -1,7 +1,7 @@
 #include "smartstr.h"
 
 char** smartstr_split(char *str, char *search, int *length){
-    char *p, *q, array[0x100][0x100];
+    char *p, *q, array[0x100][0x100]; //array size default 0x100 * 0x100, resize it if necessary
     char **p_res;
     int i, search_size;
     p = strdup(str);
@@ -30,42 +30,44 @@ char** smartstr_split(char *str, char *search, int *length){
     return p_res;
 }
 
-int smartstr_replace(char *str, char *search, char *replace){
+char *smartstr_replace(char *str, char *search, char *replace, int *matched){
     char **p;
     int length, index;
     p = smartstr_split(str, search, &length);
     SMARTSTR_CLEAR(str);
-    for(index = 0; index < length - 1 ; index++){
-        SMARTSTR_APPEND(str, *p);
-        SMARTSTR_APPEND(str, replace);
-        p++;
-    }
     SMARTSTR_APPEND(str, *p);
-    return length - 1;
+    for(index = 0; index < length - 1 ; index++){
+        SMARTSTR_APPEND(str, replace);
+        SMARTSTR_APPEND(str, *(p + index + 1));
+    }
+    free(p);
+
+    *matched = length - 1;
+    return str;
 
 }
 
 #ifdef test
 int main (){
-    char **p;
+    char **p, *replaced_str;
     int length, index, matched;
-    printf("==============================\n");
+    printf("============================================================\n");
     SMARTSTR_SET(a, "hello world");
-    SMARTSTR_APPEND(a, "!I am dy");
+    SMARTSTR_APPEND(a, "!I am hellovigoss");
     printf("smartstr:%s\n", a);
-    printf("==============================\n");
+    printf("============================================================\n");
     printf("smartstr_split:split with \"o\"\n");
     p = smartstr_split (a, "o" , &length);
     for(index = 0; index < length; index++){
         printf("index%d:%s\n", index, *p);
         p++;
     }
-    printf("==============================\n");
+    printf("============================================================\n");
     printf("smartstr_replace:replace \"hello\" with \"lol\"\n");
-    matched = smartstr_replace(a, "hello", "lol");
-    printf("new string:\"%s\"\nmatche:%d \n", a, matched);
-    printf("==============================\n");
-    SMARTSTR_FREE(a);
+    replaced_str = smartstr_replace(a, "hello", "lol", &matched);
+    printf("new string:\"%s\"\nmatched:%d \n", replaced_str, matched);
+    printf("============================================================\n");
+    /*SMARTSTR_FREE(a);*/
     return 0;
 }
 #endif

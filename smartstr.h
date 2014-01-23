@@ -16,11 +16,10 @@
     memset(str, 0, sizeof(char) * (strlen(src) + 1));   \
     strcpy(str, src);
 
-#define SMARTSTR_APPEND(str, src)  do{  \
-    char *temp = (char *)realloc(str, sizeof(char) * (strlen(str) + strlen(src) + 1)); \
-    memset(temp + strlen(str), 0, strlen(src) + 1); \
-    strcpy(temp + strlen(str), src);  \
-}while(0);
+#define SMARTSTR_APPEND(str, src)  \
+    str = (char *)realloc(str, sizeof(char) * (strlen(str) + strlen(src) + 1)); \
+    memset(str + strlen(str), 0, strlen(src) + 1); \
+    strcpy(str + strlen(str), src);
 
 #define SMARTSTR_CLEAR(str) do{ \
     memset(str, 0, strlen(str));    \
@@ -32,5 +31,5 @@
 
 char** smartstr_split(char *str, char *search, int *length);
 
-int smartstr_replace(char *str, char *search, char *replace);
+char *smartstr_replace(char *str, char *search, char *replace, int *matched);
 
