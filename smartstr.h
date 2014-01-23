@@ -22,9 +22,15 @@
     strcpy(temp + strlen(str), src);  \
 }while(0);
 
+#define SMARTSTR_CLEAR(str) do{ \
+    memset(str, 0, strlen(str));    \
+}while(0);
+
 #define SMARTSTR_FREE(str)  do{ \
     free(str);  \
 }while(0);
 
 char** smartstr_split(char *str, char *search, int *length);
+
+int smartstr_replace(char *str, char *search, char *replace);
 
